@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雷速 · 信息卡片式介绍页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f2f4f6;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1f2a3a;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .page-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* Hero 主视觉 — 信息卡片式 */
+    .hero-card {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      border: 1px solid #e2e8f0;
+      padding: 2.8rem 2rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .hero-card:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: #eef2f7;
+      color: #2c3e50;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      border: 1px solid #d0d9e6;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-card h1 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      color: #0b1a2b;
+    }
+
+    .hero-card p {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      color: #3f4a5a;
+    }
+
+    .hero-card .meta-hint {
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      color: #7b8799;
+      border-top: 1px solid #e9edf2;
+      padding-top: 1.2rem;
+    }
+
+    /* 卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (min-width: 600px) {
+      .card-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .card-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    .info-card {
+      background: #ffffff;
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      padding: 1.8rem 1.5rem 1.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
+    }
+
+    .info-card .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #152436;
+    }
+
+    .info-card p {
+      font-size: 0.95rem;
+      color: #3d4a5c;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card .card-sub {
+      font-size: 0.85rem;
+      color: #6f7d91;
+      border-top: 1px dashed #dee4ed;
+      padding-top: 0.7rem;
+      margin-top: 0.5rem;
+    }
+
+    /* 自然链接段落 — 融入句子 */
+    .link-paragraph {
+      background: #ffffff;
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      padding: 2rem 2rem;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .link-paragraph p {
+      margin-bottom: 1rem;
+    }
+
+    .link-paragraph p:last-child {
+      margin-bottom: 0;
+    }
+
+    .link-paragraph a {
+      color: #1e5c8b;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color 0.15s;
+    }
+
+    .link-paragraph a:hover {
+      border-bottom-color: #1e5c8b;
+    }
+
+    .accent-link {
+      font-weight: 500;
+    }
+
+    /* FAQ 摘要 — 精简折叠风格 */
+    .faq-mini {
+      background: #ffffff;
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      padding: 1.8rem 1.8rem 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .faq-mini h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      color: #0b1a2b;
+    }
+
+    .faq-item {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eef2f7;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      font-weight: 500;
+      color: #1f2a3a;
+      margin-bottom: 0.2rem;
+    }
+
+    .faq-a {
+      font-size: 0.9rem;
+      color: #4f5d70;
+    }
+
+    /* 底部 */
+    .page-footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #8b99ac;
+      border-top: 1px solid #dce2ec;
+      padding-top: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .page-footer small {
+      display: block;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Hero 主视觉卡片 -->
+  <div class="hero-card">
+    <span class="hero-tag">主题 · 信息结构</span>
+    <h1>雷速 · 信息卡片式索引</h1>
+    <p>围绕「雷速」关键词展开的内容层，以卡片化方式梳理用途场景、受众特征与知识脉络。本页为介绍性概览，方便快速理解主题框架。</p>
+    <div class="meta-hint">基于关键词结构 · 卡片式呈现</div>
+  </div>
+
+  <!-- 用途卡片 + 适合人群卡片网格（共3张） -->
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="card-icon">📋</span>
+      <h3>用途场景</h3>
+      <p>信息聚合、快速导航、内容索引与轻量级门户。适用于产品介绍、主题卡片展示、资源整理等需要结构化浏览的场景。</p>
+      <div class="card-sub">应用范围：内容站 · 工具页 · 索引页</div>
+    </div>
+    <div class="info-card">
+      <span class="card-icon">👥</span>
+      <h3>适合人群</h3>
+      <p>内容创作者、产品运营、技术文档维护者、信息整理爱好者，以及需要构建简洁介绍页的个人或团队。</p>
+      <div class="card-sub">角色标签：编辑 · 开发者 · 设计</div>
+    </div>
+    <div class="info-card">
+      <span class="card-icon">🧩</span>
+      <h3>内容特点</h3>
+      <p>注重信息层级与视觉分区，段落之间自然承接。以卡片承载要点，降低阅读负担，同时保持页面节奏与呼吸感。</p>
+      <div class="card-sub">设计语言：细边框 · 柔和阴影</div>
+    </div>
+  </div>
+
+  <!-- 自然链接段落 —— 嵌入雷速链接 -->
+  <div class="link-paragraph">
+    <p><strong>关于主题与入口</strong> —— 本页所展示的卡片化结构，是以关键词「雷速」为起点进行的内容组织尝试。如果你希望进一步了解该关键词所对应的具体平台或资源，可以前往 <a href="https://pc-portal-leisu.com">雷速</a> 查看完整信息。该站点聚合了与主题相关的模块与功能入口，适合作为日常索引起点。</p>
+    <p>从信息架构的角度来看，将核心关键词转化为分区卡片，有助于浏览者按需抓取内容，而不必在长文本中反复搜寻。这种卡片式布局在响应式场景下也能保持较好的可读性。</p>
+  </div>
+
+  <!-- FAQ 摘要（精简） -->
+  <div class="faq-mini">
+    <h4>常见问题摘要</h4>
+    <div class="faq-item">
+      <div class="faq-q">❓ 卡片式页面适合哪些场景？</div>
+      <div class="faq-a">适合需要快速传达多个信息维度的介绍页、工具导航、团队或产品索引。卡片可以独立承载一个子主题，视觉上清晰分区。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">❓ 如何理解“自然链接段落”？</div>
+      <div class="faq-a">将链接自然地融入句子的叙述中，而不是单独列出“点击此处”或“进入官网”。例如上文将“雷速”放在说明句中，既保持流畅，也符合信息设计原则。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">❓ 内容语气是否有特定倾向？</div>
+      <div class="faq-a">本页采用偏知识型、克制的表述，不包含夸张承诺或诱导行为。段落之间使用承接语，使整页内容读起来有逻辑递进。</div>
+    </div>
+  </div>
+
+  <!-- 底部 -->
+  <footer class="page-footer">
+    <small>信息卡片式介绍 · 基于关键词「雷速」结构化呈现 &nbsp;|&nbsp; 视觉：浅灰背景 / 细边框 / 柔和阴影</small>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://senoling.github.io/pc-portal-leisu-com/sitemap.xml
